@@ -8,13 +8,14 @@ namespace Mary.Windows.WelcomeWindow
         public Welcome()
         {
             InitializeComponent();
-            MainFrame.Navigate(new wel_1());
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
+            {
                 this.DragMove();
+            }
         }
     }
 }

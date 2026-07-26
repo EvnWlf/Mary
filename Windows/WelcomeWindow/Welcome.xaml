@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mary.Windows.WelcomeWindow"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        ResizeMode="NoResize"
-        MouseDown="Window_MouseDown"
-        Title="Welcome" Height="450" Width="800">
-    <Grid>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        WindowStartupLocation="CenterScreen"
+        Title="Welcome"
+        Height="420" Width="700">
+    <Grid MouseDown="Window_MouseDown">
+        <Frame x:Name="MainFrame" 
+               Source="wel_1.xaml" 
+               NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
