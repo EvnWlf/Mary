@@ -21,8 +21,9 @@
   <ItemGroup>
     <Folder Include="Lists\Books\" />
     <Folder Include="Lists\Songs\" />
-    <Folder Include="Modules\" />
     <Folder Include="item_Song\Model\" />
+    <Folder Include="Modules\Settings\" />
+    <Folder Include="Modules\Service\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Mary.Windows.SettingsWindow;
 
 namespace Mary.Windows.MainWindow
 {
@@ -17,6 +18,13 @@ namespace Mary.Windows.MainWindow
         public Mary()
         {
             InitializeComponent();
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            global::Mary.Windows.SettingsWindow.Settings settingsWindow =
+                new global::Mary.Windows.SettingsWindow.Settings();
+            settingsWindow.Show();
         }
     }
 }
