@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Assets/icon.png" width="128" height="128" alt="Mary Logo">
+  <img src="https://github.com/EvnWlf/Mary/blob/7f109c56286f88387262fe3c943ea92462ea2783/Assets/app_icon.png" width="128" height="128" alt="Mary Logo">
 </p>
 <h1 align="center">Mary</h1>
 
