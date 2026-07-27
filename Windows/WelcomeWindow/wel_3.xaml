@@ -64,6 +64,8 @@
                     <Style TargetType="TreeViewItem">
                         <Setter Property="Margin" Value="0,2,0,2"/>
                         <Setter Property="Padding" Value="6,4"/>
+                        <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>
+                        <EventSetter Event="Collapsed" Handler="TreeViewItem_Collapsed"/>
                     </Style>
                 </TreeView.Resources>
             </TreeView>

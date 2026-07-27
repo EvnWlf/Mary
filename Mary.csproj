@@ -7,6 +7,23 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\app_icon.ico</ApplicationIcon>
+    <SignAssembly>False</SignAssembly>
+    <Title>Mary</Title>
+    <Copyright>Evnwlf 2026</Copyright>
+    <PackageProjectUrl>https://github.com/EvnWlf/Mary</PackageProjectUrl>
+    <PackageIcon>Frame 1 (1).png</PackageIcon>
+    <RepositoryUrl>https://github.com/EvnWlf/Mary</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>es-MX</NeutralLanguage>
+    <Authors>Evan Robles</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,9 +38,15 @@
   <ItemGroup>
     <Folder Include="Lists\Books\" />
     <Folder Include="Lists\Songs\" />
-    <Folder Include="item_Song\Model\" />
     <Folder Include="Modules\Settings\" />
     <Folder Include="Modules\Service\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Downloads\Frame 1 (1).png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

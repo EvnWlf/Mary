@@ -1,11 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Mary.Modules.Windows
 {
-    public class MusicFolderSelect
+    class BookFolderSelect
     {
         public static void LoadUserFolder(TreeView treeView)
         {
@@ -13,8 +14,8 @@ namespace Mary.Modules.Windows
 
             try
             {
-                string userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                DirectoryInfo userDir = new DirectoryInfo(userProfilePath);
+                string userFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                DirectoryInfo userDir = new DirectoryInfo(userFolderPath);
 
                 if (userDir.Exists)
                 {
@@ -37,20 +38,14 @@ namespace Mary.Modules.Windows
             };
 
             StackPanel stack = new StackPanel { Orientation = Orientation.Horizontal };
-            FontFamily symbolFont = (Application.Current?.Resources?["SymbolThemeFontFamily"] as FontFamily)
-                                    ?? new FontFamily("Segoe Fluent Icons");
 
             TextBlock icon = new TextBlock
             {
-                FontFamily = symbolFont,
                 Text = isExpanded ? "\xE838;" : "\xE8B7;",
                 FontSize = 14,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 6, 0),
-                Foreground = (Application.Current?.Resources?["TextFillColorSecondaryBrush"] as Brush)
-                             ?? Brushes.Gray
+                Margin = new Thickness(0, 0, 6, 0)
             };
-
             icon.Tag = "FolderGlyph";
 
             TextBlock text = new TextBlock
@@ -67,19 +62,18 @@ namespace Mary.Modules.Windows
             return item;
         }
 
-        public static void PopulateSubFolders(TreeViewItem item)
+        public static void PopulateSubFolders(TreeViewItem parentItem)
         {
-            if (item.Items.Count == 1 && item.Items[0] as string == "*")
+            if (parentItem.Items.Count == 1 && parentItem.Items[0] as string == "*")
             {
-                item.Items.Clear();
-                string? dirPath = item.Tag as string;
-                if (dirPath == null)
-                    return;
+                parentItem.Items.Clear();
+                string parentPath = parentItem.Tag as string;
+                if (parentPath == null) return;
 
                 try
                 {
-                    DirectoryInfo dir = new DirectoryInfo(dirPath);
-                    foreach (DirectoryInfo subDir in dir.GetDirectories())
+                    DirectoryInfo dirInfo = new DirectoryInfo(parentPath);
+                    foreach (var subDir in dirInfo.GetDirectories())
                     {
                         bool isSystemOrHidden = (subDir.Attributes & FileAttributes.Hidden) != 0 ||
                                                 (subDir.Attributes & FileAttributes.System) != 0;
@@ -88,31 +82,34 @@ namespace Mary.Modules.Windows
                         if (!isSystemOrHidden && !startsWithDot)
                         {
                             TreeViewItem subItem = CreateFolderNode(subDir.Name, subDir.FullName, false);
-                            item.Items.Add(subItem);
+                            parentItem.Items.Add(subItem);
                         }
                     }
                 }
                 catch (UnauthorizedAccessException) { }
-                catch (Exception) { }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
-            UpdateFolderIcon(item, "\xE838;");
+            UpdateFolderIcon(parentItem, ";");
         }
 
         public static void CollapseFolder(TreeViewItem item)
         {
-            UpdateFolderIcon(item, "\xE8B7;");
+            UpdateFolderIcon(item, ";");
         }
 
-        private static void UpdateFolderIcon(TreeViewItem item, string glyph)
+        private static void UpdateFolderIcon(TreeViewItem item, string symbol)
         {
             if (item.Header is StackPanel stack)
             {
                 foreach (var child in stack.Children)
                 {
-                    if (child is TextBlock tb && tb.Tag is string tag && tag == "FolderGlyph")
+                    if (child is TextBlock tb && tb.Tag as string == "FolderGlyph")
                     {
-                        tb.Text = glyph;
+                        tb.Text = symbol;
                         break;
                     }
                 }

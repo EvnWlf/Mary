@@ -15,6 +15,14 @@
         <Style TargetType="Run">
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
         </Style>
+
+        <Style x:Key="FolderIconStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource SymbolThemeFontFamily}" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,6,0" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+        </Style>
     </Page.Resources>
 
     <Grid Margin="55,30,55,30">
@@ -58,12 +66,49 @@
                       Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                       BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
 
-                <TreeView.Resources>
+                <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
-                        <Setter Property="Margin" Value="0,2,0,2"/>
-                        <Setter Property="Padding" Value="6,4"/>
+                        <Setter Property="Margin" Value="0,1,0,1"/>
+                        <Setter Property="Padding" Value="4,4"/>
+                        <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>
+                        <EventSetter Event="Collapsed" Handler="TreeViewItem_Collapsed"/>
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TreeViewItem">
+                                    <StackPanel>
+                                        <Border x:Name="Bd" 
+                                                Background="{TemplateBinding Background}" 
+                                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                                CornerRadius="4"
+                                                Padding="{TemplateBinding Padding}">
+                                            <Grid>
+                                                <ToggleButton x:Name="Expander" 
+                                                              Visibility="Collapsed" 
+                                                              IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                                <ContentPresenter x:Name="PART_Header" 
+                                                                  ContentSource="Header" 
+                                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                            </Grid>
+                                        </Border>
+                                        <ItemsPresenter x:Name="ItemsHost"/>
+                                    </StackPanel>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
-                </TreeView.Resources>
+                </TreeView.ItemContainerStyle>
             </TreeView>
         </Grid>
 
