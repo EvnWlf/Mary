@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Mary.Modules.Windows
 {
@@ -11,7 +10,6 @@ namespace Mary.Modules.Windows
         public static void LoadUserFolder(TreeView treeView)
         {
             treeView.Items.Clear();
-
             try
             {
                 string userFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -30,13 +28,10 @@ namespace Mary.Modules.Windows
             }
         }
 
+        // Creates a folder node with a glyph and a lazy-loading marker for subfolders.
         public static TreeViewItem CreateFolderNode(string name, string path, bool isExpanded = false)
         {
-            TreeViewItem item = new TreeViewItem
-            {
-                Tag = path
-            };
-
+            TreeViewItem item = new TreeViewItem { Tag = path };
             StackPanel stack = new StackPanel { Orientation = Orientation.Horizontal };
 
             TextBlock icon = new TextBlock
@@ -44,9 +39,9 @@ namespace Mary.Modules.Windows
                 Text = isExpanded ? "\xE838;" : "\xE8B7;",
                 FontSize = 14,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 6, 0)
+                Margin = new Thickness(0, 0, 6, 0),
+                Tag = "FolderGlyph"
             };
-            icon.Tag = "FolderGlyph";
 
             TextBlock text = new TextBlock
             {
@@ -57,7 +52,6 @@ namespace Mary.Modules.Windows
             stack.Children.Add(icon);
             stack.Children.Add(text);
             item.Header = stack;
-
             item.Items.Add("*");
             return item;
         }
@@ -67,7 +61,7 @@ namespace Mary.Modules.Windows
             if (parentItem.Items.Count == 1 && parentItem.Items[0] as string == "*")
             {
                 parentItem.Items.Clear();
-                string parentPath = parentItem.Tag as string;
+                string? parentPath = parentItem.Tag as string;
                 if (parentPath == null) return;
 
                 try
@@ -92,13 +86,14 @@ namespace Mary.Modules.Windows
                     Console.WriteLine(ex.Message);
                 }
             }
-
-            UpdateFolderIcon(parentItem, ";");
+            // Use the same glyph code used when creating the node to keep icons consistent
+            UpdateFolderIcon(parentItem, "\xE838;");
         }
 
         public static void CollapseFolder(TreeViewItem item)
         {
-            UpdateFolderIcon(item, ";");
+            // Use the standard collapsed folder glyph
+            UpdateFolderIcon(item, "\xE8B7;");
         }
 
         private static void UpdateFolderIcon(TreeViewItem item, string symbol)
@@ -113,6 +108,13 @@ namespace Mary.Modules.Windows
                         break;
                     }
                 }
+            }
+        }
+        public static void SaveSelection(string selectedPath)
+        {
+            if (!string.IsNullOrWhiteSpace(selectedPath))
+            {
+                AppConfigManager.SaveBooksPath(selectedPath);
             }
         }
     }

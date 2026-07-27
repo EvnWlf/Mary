@@ -38,8 +38,8 @@
   <ItemGroup>
     <Folder Include="Lists\Books\" />
     <Folder Include="Lists\Songs\" />
-    <Folder Include="Modules\Settings\" />
     <Folder Include="Modules\Service\" />
+    <Folder Include="Modules\Settings\" />
   </ItemGroup>
 
   <ItemGroup>
